@@ -170,8 +170,8 @@ class ExtractTask extends AppShell {
 			$this->_getPaths();
 		}
 
-		if (!empty($this->params['extract-core'])) {
-			$this->_extractCore = true;
+		if (isset($this->params['extract-core'])) {
+			$this->_extractCore = !(strtolower($this->params['extract-core']) === 'no');
 		} else {
 			$response = $this->in(__d('cake_console', 'Would you like to extract the messages from the CakePHP core?'), array('y', 'n'), 'n');
 			$this->_extractCore = strtolower($response) === 'y';
@@ -332,9 +332,8 @@ class ExtractTask extends AppShell {
 				'help' => __d('cake_console', 'Always overwrite existing .pot files.')
 			))
 			->addOption('extract-core', array(
-				'boolean' => true,
-				'default' => false,
-				'help' => __d('cake_console', 'Extract messages from the CakePHP core libs.')
+				'help' => __d('cake_console', 'Extract messages from the CakePHP core libs.'),
+				'choices' => array('yes', 'no')
 			));
 	}
 
