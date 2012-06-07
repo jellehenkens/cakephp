@@ -86,6 +86,8 @@ class ExtractTaskTest extends CakeTestCase {
 		$this->assertTrue(file_exists($this->path . DS . 'default.pot'));
 		$result = file_get_contents($this->path . DS . 'default.pot');
 
+		$this->assertFalse(file_exists($this->path . DS . 'cake.pot'));
+
 		$pattern = '/"Content-Type\: text\/plain; charset\=utf-8/';
 		$this->assertRegExp($pattern, $result);
 		$pattern = '/"Content-Transfer-Encoding\: 8bit/';
@@ -447,5 +449,14 @@ class ExtractTaskTest extends CakeTestCase {
 
 		$pattern = '/msgid "Yesterday, %s"\nmsgstr ""\n/';
 		$this->assertRegExp($pattern, $result);
+
+		$this->assertTrue(file_exists($this->path . DS . 'cake_dev.pot'));
+		$result = file_get_contents($this->path . DS . 'cake_dev.pot');
+
+		$pattern = '/#: Console\/Templates\//';
+		$this->assertNotRegExp($pattern, $result);
+
+		$pattern = '/#: Test\//';
+		$this->assertNotRegExp($pattern, $result);
 	}
 }
